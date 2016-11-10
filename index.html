@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <script type="text/javascript">
@@ -12,7 +13,8 @@ $(document).ready(function(){
 });
 function search(){
 	   	var httpRequest = new XMLHttpRequest();
-		var url='request.php?q=definition';
+	   	var theInput = document.getElementById('txtvarInput').value;
+		var url='request.php?q='+ theInput;
 		httpRequest.onreadystatechange = message;
 		httpRequest.open('GET',url);
 		httpRequest.send();
@@ -21,7 +23,7 @@ function message(){
 		if (this.readyState === XMLHttpRequest.DONE) {
 	 		if (this.status === 200) {
 	 			var def = this.responseText;
-	 			alert(def);
+	 		document.getElementById('log').innerHTML +=	(def);
 		 	} 
 		 	}
 		 	}
@@ -29,8 +31,9 @@ function message(){
 </script>
 
 <body>
-
-<button type="button"> Search </button>
+<div id="log">
+<input id="txtvarInput" type="text"/> <button type="button"> Search </button>
+</div>
 
 </body>
 

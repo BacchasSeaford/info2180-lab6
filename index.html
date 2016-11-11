@@ -2,14 +2,15 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+<!--	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
-<script type="text/javascript">
-
+<script>
 $(document).ready(function(){
-	$("button").on('click', search);
+	$("#search").on('click', search);
+	$("#all").on('click', shuball);
 });
 function search(){
 	   	var httpRequest = new XMLHttpRequest();
@@ -25,16 +26,30 @@ function message(){
 	 			var def = this.responseText;
 	 		document.getElementById('log').innerHTML +=	(def);
 		 	} 
-		 	}
-		 	}
+		 }
+	}
+	
+function shuball(e){
+	e.preventDefault();
+		$.ajax('request.php',{
+			method:'GET',
+			dataType: 'xml'
+		}).done(function(bad) {
+            var definition = $(bad).find('word');
+            $('#log').append("<ul></ul>");
+            $(definition).each(function() {
+                $('#log ul').append('<li>'+ $(this).find('name').text() +'<br>'+$(this).find('meaning').text()+'</li>');
+             });
+        }).fail(function(){
+			alert('oooops!!! you mess up somewhere!');
+        });
+    }
 
 </script>
-
 <body>
-<div id="log">
-<input id="txtvarInput" type="text"/> <button type="button"> Search </button>
-</div>
+<div id="log"> <br><br>
+<input id="txtvarInput" type="text"/> <button id="search" type="button"> Search </button>
+<button id="all" type="button"> Get All Definitions</button> </div>
 
 </body>
-
 </html>
